@@ -1,0 +1,27 @@
+{% extends 'tracker/base.html' %}
+{% block title %}Tracker{% endblock %}
+{% block content %}
+{% if trackers %}
+        {% for t in trackers %}
+            <div>
+                <h1><a href="{% url 'tracker' t.pk%}">{{ t }}</a></h1>
+            </div>
+            <div style="height: 30px;"></div>
+        {% endfor %}
+        <div>
+        {% if paginator.count != 0 %}
+            {% for i in paginator.page_range %}
+                <div style="display:inline-block;">
+                    {% if i != page %}
+                        <a href="{% url 'user' user_id i %}">{{ i }}</a>
+                    {% else %}
+                        <a style="color: #2aff18;">{{ i }}</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    {% else %}
+        <h1>Ти без треків</h1>
+    {% endif %}
+{% endblock %}

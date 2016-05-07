@@ -1,0 +1,45 @@
+{% extends 'tracker/base.html' %}
+{% load static %}
+{% block title %}Маршрути{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'tracker/css/css_tracker_maps.css'%}">
+{% endblock %}
+{% block content %}
+        <div id="map"></div>
+        <div id="right-panel"></div>
+        <br/>
+        <script>
+            function initMap() {
+                var start = {lat: {{  ob.user_id.position_lat }}, lng: {{ ob.user_id.position_long  }}};
+                var end = {lat: {{ ob.place_id.position_lat }}, lng: {{ ob.place_id.position_long }}};
+                var directionsDisplay = new google.maps.DirectionsRenderer({
+                    map: map
+                });
+                var directionsService = new google.maps.DirectionsService;
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: start,
+                    scrollwheel: true,
+                    zoom: 7,
+                });
+                directionsDisplay.setMap(map);
+                directionsDisplay.setPanel(document.getElementById('right-panel'))
+                // Set destination, origin and travel mode.
+                var request = {
+                    destination: end,
+                    origin: start,
+                    travelMode: google.maps.TravelMode.TRANSIT
+
+                };
+                // Pass the directions request to the directions service.
+                var directionsService = new google.maps.DirectionsService();
+                directionsService.route(request, function (response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        // Display the route on the map.
+                        directionsDisplay.setDirections(response);
+                    }
+                });
+            }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT-WN94rBusbT5l4fv-8dKkMhx-iqN3wI&language=uk&callback=initMap"
+                async defer></script>
+{% endblock %}

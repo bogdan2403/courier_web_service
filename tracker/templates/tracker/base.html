@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
-    <script src="{% static jquery %}"></script>
+    <script src="{% static 'tracker/js/jquery.js' %}"></script>
     <script>
         if (typeof jQuery == 'undefined') {
             console.log('jQuery hasn\'t loaded');
@@ -12,9 +12,11 @@
             console.log('jQuery has loaded');
         }
     </script>
+{% block head %}
+{% endblock %}
 </head>
 <body>
-{% block content %}
-{% endblock %}
+    {% block content %}
+    {% endblock %}
 </body>
 </html>

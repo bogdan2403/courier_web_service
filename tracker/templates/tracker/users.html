@@ -1,0 +1,28 @@
+{% extends 'tracker/base.html' %}
+{% block title %}Користувачі{% endblock %}
+{% block content %}
+    {% if user %}
+        {% for u in users %}
+            <div>
+                <h1><a href="{% url 'user_page'  u.id 1 %}">{{ u.first_name }} {{ u.last_name }}</a></h1>
+            </div>
+            <div style="height: 30px;"></div>
+        {% endfor %}
+        <div>
+            <p>{{ paginator.count }}</p>
+            {% if paginator.count != 0 %}
+                {% for i in paginator.page_range %}
+                    <div style="display:inline-block;">
+                        {% if i != page %}
+                            <a href="{% url 'users_page' i %}">{{ i }}</a>
+                        {% else %}
+                            <p style="color: #2aff18;">{{ i }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% else %}
+        <h1>404 not found</h1>
+    {% endif %}
+{% endblock %}
