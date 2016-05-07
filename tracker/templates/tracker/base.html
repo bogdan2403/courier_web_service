@@ -1,0 +1,20 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="{% static jquery %}"></script>
+    <script>
+        if (typeof jQuery == 'undefined') {
+            console.log('jQuery hasn\'t loaded');
+        } else {
+            console.log('jQuery has loaded');
+        }
+    </script>
+</head>
+<body>
+{% block content %}
+{% endblock %}
+</body>
+</html>
