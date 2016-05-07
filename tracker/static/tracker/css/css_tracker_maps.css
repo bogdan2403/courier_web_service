@@ -13,7 +13,7 @@ html, body {
 #right-panel {
     font-family: 'Roboto', 'sans-serif';
     height: 50%;
-    width: 27%;
+    width: 30%;
     overflow: auto;
     float: left;
     padding-left: 10px;
