@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <script src="{% static 'tracker/js/jquery.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'tracker/css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'tracker/css/bootstrap-responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'tracker/css/bootstrap.min.css' %}">
     <script>
         if (typeof jQuery == 'undefined') {
             console.log('jQuery hasn\'t loaded');
@@ -18,8 +17,33 @@
 {% endblock %}
 </head>
 <body>
+{# Панель навігації#}
+<nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Кур'єропомічник</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Головна сторінка <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">Сторінка адміністратора</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{#///////////////#}
     {% block content %}
     {% endblock %}
-<script src="{% static 'tracker/js/bootstrap.js' %}"></script>
+<script src="{% static 'tracker/js/bootstrap.min.js' %}"></script>
 </body>
 </html>
