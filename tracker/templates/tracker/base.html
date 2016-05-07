@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <script src="{% static 'tracker/js/jquery.js' %}"></script>
+    <script src="{% static 'tracker/js/bootstrap.js' %}"></script>
     <script>
         if (typeof jQuery == 'undefined') {
             console.log('jQuery hasn\'t loaded');
@@ -18,5 +19,6 @@
 <body>
     {% block content %}
     {% endblock %}
+<script src="{% static 'tracker/js/bootstrap.js' %}"></script>
 </body>
 </html>
