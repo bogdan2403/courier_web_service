@@ -5,16 +5,17 @@ html, body {
 }
 
 #map {
-    width: 70%;
-    height: 50%;
-    float: left;
+    width: auto;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0px);
+    background-color: rgb(229, 227, 223);
 }
 
 #right-panel {
     font-family: 'Roboto', 'sans-serif';
-    height: 50%;
-    width: 30%;
+    height: 300px;
     overflow: auto;
     float: left;
-    padding-left: 10px;
 }
