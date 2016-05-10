@@ -2,3 +2,4 @@
 tracker/__pycache__/
 tracker/migrations/__pycache__/
 courier_web_service/__pycache__/
+db.sqlite3
