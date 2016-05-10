@@ -1,11 +1,8 @@
 from django.db import models
+from django.contrib.auth import models as model_user
 
 
-class User(models.Model):
-    username = models.CharField(max_length=30, unique=True)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.EmailField(unique=True)
+class User(model_user.User):
     position_lat = models.DecimalField(decimal_places=8, max_digits=10)
     position_long = models.DecimalField(decimal_places=8, max_digits=10)
     date_registration = models.DateTimeField(auto_now_add=True)
