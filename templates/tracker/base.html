@@ -20,20 +20,40 @@
 {% endblock %}
 </head>
 <body>
+<script>
+    $(document).ready(function () {
+       $('.loginmodal-submit').click(function () {
+    $.ajax({
+        url: "/authorization/login/",
+        type: "POST",
+        data: $('.myfor').serialize(),
+
+        success : function(data) {
+            if (data == "1"){location.reload()}
+            else{
+                $('#info-log').fadeIn(2000);
+                setTimeout(function (){$('#info-log').fadeOut(2000)},7000)
+            }
+        }});})});
+
+</script>
 {% if not user_name%}
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     	  <div class="modal-dialog">
 				<div class="loginmodal-container">
 					<h1>Зайдіть у свій акаунт</h1><br>
-				  <form action="/authorization/login/" method="post">
+
+                    <br>
+				  <form class="myfor">
                       {% csrf_token %}
 					<input type="text" name="user" placeholder="Username">
 					<input type="password" name="pass" placeholder="Password">
-					<input type="submit" name="login" class="login loginmodal-submit" value="Login">
+					<input type="button" name="login" class="login loginmodal-submit" value="Login">
 				  </form>
 
 				  <div class="login-help">
 					<a href="#">Реєстрація</a>
+                      <h2 id="info-log">Не вірно введено дані</h2>
 				  </div>
 				</div>
 			</div>
@@ -62,7 +82,7 @@
                     {% if user_name%}
                     <li><a href="/authorization/logout/">Вийти ({{ user_name }})</a></li>
                     {% else %}
-                        <li><a href="/authorization/login/" data-toggle="modal" data-target="#login-modal">Увійти</a></li>
+                        <li><a href="" data-toggle="modal" data-target="#login-modal">Увійти</a></li>
                     {% endif %}
                 </ul>
             </div>

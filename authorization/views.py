@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, HttpResponse
 from django.contrib import auth
 
 
@@ -18,5 +18,5 @@ def login(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('/tracker/')
-        return redirect('/tracker/')
+            return HttpResponse(1)
+        return HttpResponse(0)
