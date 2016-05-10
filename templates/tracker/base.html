@@ -26,6 +26,7 @@
 				<div class="loginmodal-container">
 					<h1>Зайдіть у свій акаунт</h1><br>
 				  <form>
+                      {% csrf_token %}
 					<input type="text" name="user" placeholder="Username">
 					<input type="password" name="pass" placeholder="Password">
 					<input type="submit" name="login" class="login loginmodal-submit" value="Login">
