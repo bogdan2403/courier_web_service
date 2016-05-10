@@ -1,11 +1,13 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
+from django.contrib import auth
 
 from tracker.models import User, Tracker
 
 
 def index(request):
-    context = {}
+    user_name = auth.get_user(request).username
+    context = {'user_name': user_name}
     return render(request, 'tracker/index.html', context)
 
 
@@ -14,7 +16,9 @@ def users(request, page=1):
     users_by_id = User.objects.all()
     p = Paginator(users_by_id, 2)
     page1 = p.page(page)
+    user_name = auth.get_user(request).username
     context = {
+        'user_name': user_name,
         'users': page1,
         'paginator': p,
         'page': page,
@@ -29,7 +33,9 @@ def user(request, user_id, page=1):
     name = User.objects.get(pk=user_id).first_name
     p = Paginator(user_by_id, 2)
     page1 = p.page(page)
+    user_name = auth.get_user(request).username
     context = {
+        'user_name': user_name,
         'name': name,
         'trackers': page1,
         'paginator': p,
@@ -41,7 +47,9 @@ def user(request, user_id, page=1):
 
 def tracker(request, track_id):
     track = Tracker.objects.get(pk=int(track_id))
+    user_name = auth.get_user(request).username
     context = {
+        'user_name': user_name,
         'ob': track,
     }
     return render(request, 'tracker/tracker.html', context)

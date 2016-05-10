@@ -39,7 +39,11 @@
                     <li><a href="/admin/">Сторінка адміністратора</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Login</a></li>
+                    {% if user_name%}
+                    <li><a href="/authorization/logout/">Вийти ({{ user_name }})</a></li>
+                    {% else %}
+                    <li><a href="/authorization/login/">Увійти</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
