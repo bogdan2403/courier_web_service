@@ -21,8 +21,11 @@
         <br/>
         <script>
             function initMap() {
-                var start = {lat: {{  ob.user_id.position_lat }}, lng: {{ ob.user_id.position_long  }}};
-                var end = {lat: {{ ob.place_id.position_lat }}, lng: {{ ob.place_id.position_long }}};
+                // ДЖАНГО ВІДДАЄ ЧИСЛО З КОМАМИ!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                var start = {lat: parseFloat('{{  ob.user_id.position_lat }}'.replace(",",".")),
+                    lng: parseFloat('{{ ob.user_id.position_long  }}'.replace(",","."))};
+                var end = {lat: parseFloat('{{ ob.place_id.position_lat }}'.replace(",",".")),
+                    lng: parseFloat('{{ ob.place_id.position_long }}'.replace(",","."))};
                 var directionsDisplay = new google.maps.DirectionsRenderer({
                     map: map
                 });
