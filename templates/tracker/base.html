@@ -9,88 +9,92 @@
     <script src="{% static 'tracker/js/jquery.js' %}"></script>
     <link rel="stylesheet" href="{% static 'tracker/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'tracker/css/auth.css' %}">
-    <script>
-        if (typeof jQuery == 'undefined') {
-            console.log('jQuery hasn\'t loaded');
-        } else {
-            console.log('jQuery has loaded');
-        }
-    </script>
-{% block head %}
-{% endblock %}
+    {% if not user_name %}
+        {#    Скрипт для панелі входу#}
+        <script>
+            $(document).ready(function () {
+                $('.loginmodal-submit').click(function () {
+                    $.ajax({
+                        url: "/authorization/login/",
+                        type: "POST",
+                        data: $('.myfor').serialize(),
+
+                        success: function (data) {
+                            if (data == "1") {
+                                location.reload()
+                            }
+                            else {
+                                $('#info-log').fadeIn(2000);
+                                setTimeout(function () {
+                                    $('#info-log').fadeOut(2000)
+                                }, 7000)
+                            }
+                        }
+                    });
+                })
+            });
+        </script>
+        {#/////////////////////////////#}
+    {% endif %}
+    {% block head %}
+    {% endblock %}
 </head>
 <body>
-<script>
-    $(document).ready(function () {
-       $('.loginmodal-submit').click(function () {
-    $.ajax({
-        url: "/authorization/login/",
-        type: "POST",
-        data: $('.myfor').serialize(),
-
-        success : function(data) {
-            if (data == "1"){location.reload()}
-            else{
-                $('#info-log').fadeIn(2000);
-                setTimeout(function (){$('#info-log').fadeOut(2000)},7000)
-            }
-        }});})});
-
-</script>
-{% if not user_name%}
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    	  <div class="modal-dialog">
-				<div class="loginmodal-container">
-					<h1>Зайдіть у свій акаунт</h1><br>
-
-                    <br>
-				  <form class="myfor">
-                      {% csrf_token %}
-					<input type="text" name="user" placeholder="Username">
-					<input type="password" name="pass" placeholder="Password">
-					<input type="button" name="login" class="login loginmodal-submit" value="Login">
-				  </form>
-
-				  <div class="login-help">
-					<a href="#">Реєстрація</a>
-                      <h2 id="info-log">Не вірно введено дані</h2>
-				  </div>
-				</div>
-			</div>
-		  </div>
+{% if not user_name %}
+    {#Панель входу#}
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="loginmodal-container">
+                <h1>Зайдіть у свій акаунт</h1><br>
+                <form class="myfor">
+                    {% csrf_token %}
+                    <input type="text" name="user" placeholder="Username">
+                    <input type="password" name="pass" placeholder="Password">
+                    <input type="button" name="login" class="login loginmodal-submit" value="Login">
+                </form>
+                <div class="login-help">
+                    <a href="#">Реєстрація</a>
+                    <h2 id="info-log">Не вірно введено дані</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#///////////////////////////////#}
 {% endif %}
 {# Панель навігації#}
 <div class="container-fluid" style="height: 50px"></div>
 <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{% url 'index' %}">Кур'єропомічник</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="{% url 'index' %}">Головна сторінка <span class="sr-only">(current)</span></a></li>
-                    <li><a href="/admin/">Сторінка адміністратора</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    {% if user_name%}
-                    <li><a href="/authorization/logout/">Вийти ({{ user_name }})</a></li>
-                    {% else %}
-                        <li><a href="" data-toggle="modal" data-target="#login-modal">Увійти</a></li>
-                    {% endif %}
-                </ul>
-            </div>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'index' %}">Кур'єропомічник</a>
         </div>
-    </nav>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{% url 'index' %}">Головна сторінка <span
+                        class="sr-only">(current)</span></a></li>
+                <li><a href="/admin/">Сторінка адміністратора</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user_name %}
+                    <li><a href="/authorization/logout/">Вийти ({{ user_name }})</a></li>
+                {% else %}
+                    <li><a href="" data-toggle="modal" data-target="#login-modal">Увійти</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
 {#///////////////#}
-    {% block content %}
-    {% endblock %}
+{% block content %}
+{% endblock %}
 <script src="{% static 'tracker/js/bootstrap.min.js' %}"></script>
 </body>
 </html>
