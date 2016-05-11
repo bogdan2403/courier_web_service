@@ -1,5 +1,8 @@
 .idea/
 tracker/__pycache__/
 tracker/migrations/__pycache__/
+authorization/__pycache__/
+authorization/migrations/__pycache__/
 courier_web_service/__pycache__/
 db.sqlite3
+
