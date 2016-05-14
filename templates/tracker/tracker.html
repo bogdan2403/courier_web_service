@@ -6,6 +6,7 @@
     <script>
         var start;
         var map;
+        var is_click = false;
         start = {
             lat: parseFloat('{{  ob.user_id.position_lat }}'.replace(",", ".")),
             lng: parseFloat('{{ ob.user_id.position_long  }}'.replace(",", "."))
@@ -52,10 +53,14 @@
         }
         $(document).ready(function () {
             $("#builder").click(function () {
-                directions(map);
-                setTimeout(function () {
-                    $('.adp-warnbox').fadeOut(2000);
-                }, 5000);
+                if (!is_click) {
+                    directions(map);
+                    setTimeout(function () {
+                        $('.adp-warnbox').fadeOut(2000);
+                    }, 5000);
+                    is_click = true;
+                }
+
             })
         });
 
