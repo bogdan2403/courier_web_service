@@ -20,7 +20,6 @@ class User(model_user.User):
 
 class Place(models.Model):
     name = models.CharField(max_length=30, verbose_name="Назва")
-    description = models.TextField(max_length=500, verbose_name="Опис")
     position_lat = models.DecimalField(decimal_places=8, max_digits=10, verbose_name="Широта")
     position_long = models.DecimalField(decimal_places=8, max_digits=10, verbose_name="Довгота")
 
@@ -34,6 +33,7 @@ class Place(models.Model):
 
 class Tracker(models.Model):
     name = models.CharField(max_length=30, unique=True, verbose_name="Назва")
+    description = models.TextField(max_length=500, verbose_name="Опис")
     date_create = models.DateTimeField(auto_now_add=True, verbose_name="Дата створення")
     date_of_delivery = models.DateTimeField(verbose_name="Необхідно виконати маршрут до:")
     user_id = models.ForeignKey(User, verbose_name="Користувач")
