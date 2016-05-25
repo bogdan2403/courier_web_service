@@ -1,7 +1,8 @@
 html, body {
     height: 100%;
-    margin: 0;
-    padding: 0;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding: 10px;
 }
 
 #map {
@@ -18,4 +19,9 @@ html, body {
     height: 300px;
     overflow: auto;
     float: left;
+    display: none;
+}
+#add_time{
+    margin-top: 30px;
+    margin-left: 5px;
 }

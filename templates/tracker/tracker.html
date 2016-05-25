@@ -49,6 +49,7 @@
             $("#builder").click(function () {
                 if (!is_click) {
                     directions(map);
+                    $('#right-panel').fadeIn(1500);
                     setTimeout(function () {
                         $('.adp-warnbox').fadeOut(2000);
                     }, 5000);
@@ -61,6 +62,21 @@
     </script>
 {% endblock %}
 {% block content %}
+    <div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <h1>{{ ob.name }}</h1>
+    </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-0">
+             <p id="add_time">Додано: {{ ob.date_create }}</p>
+    </div>
+    <div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <p>{{ ob.description }}</p>
+    </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-0">
+             <p>Необхідно доставити до: {{ ob.date_of_delivery }}</p>
+    </div>
+    </div>
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
             <div id="map"></div>
