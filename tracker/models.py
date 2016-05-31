@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth import models as model_user
 
@@ -6,6 +7,9 @@ class User(model_user.User):
     position_lat = models.DecimalField(decimal_places=8, max_digits=10, verbose_name="Широта")
     position_long = models.DecimalField(decimal_places=8, max_digits=10, verbose_name="Довгота")
     date_registration = models.DateTimeField(auto_now_add=True, verbose_name="Дата реєстрації")
+    phone_regex = RegexValidator(regex=r'\+?380?\d{9}$',
+                                 message="Номеру повинен бути виду +380000000000.")
+    phone_number = models.CharField(validators=[phone_regex], blank=True, max_length=13, verbose_name="Номер телефону")
 
     class Meta:
         verbose_name = 'Користувач'
