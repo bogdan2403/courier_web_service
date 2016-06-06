@@ -1,3 +1,4 @@
+from django.contrib import auth
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -6,11 +7,13 @@ from tracker.models import User, Tracker
 
 
 def call_me_page(request, page=1):
+    user_name = auth.get_user(request).username
     page = int(page)
     call = reversed(Call.objects.all())
     p = Paginator(list(call), 10)
     page1 = p.page(page)
     context = {
+        'user_name': user_name,
         'all_call': page1,
         'paginator': p,
         'page': page,
@@ -27,7 +30,7 @@ def add_call(request, user_id, tracker_id):
 
 
 def check_new_call(request, len_obj):
-    if len_obj == Call.objects.count():
+    if int(len_obj) == Call.objects.count():
         return HttpResponse(0)
     else:
         return HttpResponse(1)
