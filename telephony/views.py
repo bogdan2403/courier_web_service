@@ -1,22 +1,20 @@
 from django.contrib import auth
-from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render
 from telephony.models import Call
 from tracker.models import User, Tracker
+from django.core.exceptions import ObjectDoesNotExist
 
 
-def call_me_page(request, page=1):
+def call_me_page(request):
     user_name = auth.get_user(request).username
-    page = int(page)
-    call = reversed(Call.objects.all())
-    p = Paginator(list(call), 10)
-    page1 = p.page(page)
+    call = Call.objects.all()
+    call_tmp = []
+    for c in reversed(call):
+        call_tmp.append(c)
     context = {
         'user_name': user_name,
-        'all_call': page1,
-        'paginator': p,
-        'page': page,
+        'all_call': call_tmp,
         'len_calls': Call.objects.count()
     }
     return render(request, 'telephony/calls.html', context=context)
@@ -24,8 +22,11 @@ def call_me_page(request, page=1):
 
 # AJAX зпити
 def add_call(request, user_id, tracker_id):
-    new_call = Call(user_id=User.objects.get(id=user_id), track_id=Tracker.objects.get(id=tracker_id))
-    new_call.save()
+    try:
+        new_call = Call(user_id=User.objects.get(id=user_id), track_id=Tracker.objects.get(id=tracker_id))
+        new_call.save()
+    except ObjectDoesNotExist:
+        return HttpResponse(0)
     return HttpResponse(1)
 
 
