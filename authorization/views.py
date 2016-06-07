@@ -47,3 +47,10 @@ def add_reg(request):
             return redirect('/tracker/')
         else:
             return reg(request, form.errors)
+
+
+def log_error(request):
+    if not request.user.is_authenticated():
+        return render(request, 'authorization/error.html')
+    else:
+        return redirect('/tracker/')
