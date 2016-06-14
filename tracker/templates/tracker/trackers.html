@@ -2,26 +2,34 @@
 {% block title %}Tracker{% endblock %}
 {% block content %}
 {% if trackers %}
+    <div class="container">
         {% for t in trackers %}
             <div>
+            {% if not t.is_confirm %}
                 <h1><a href="{% url 'tracker' t.pk%}">{{ t }}</a></h1>
+            {% else %}
+                <h1><a href="{% url 'tracker' t.pk%}">{{ t }}</a> - виконано</h1>
+            {% endif %}
             </div>
             <div style="height: 30px;"></div>
         {% endfor %}
         <div>
         {% if paginator.count != 0 %}
+            <nav>
+            <ul class="pagination pagination-sm">
             {% for i in paginator.page_range %}
-                <div style="display:inline-block;">
                     {% if i != page %}
-                        <a href="{% url 'trackers' i %}">{{ i }}</a>
+                        <li class="page-item"><a class="page-link" href="{% url 'trackers_page' i %}">{{ i }}</a></li>
                     {% else %}
-                        <a style="color: #2aff18;">{{ i }}</a>
+                         <li class="page-item"><a class="page-link" style="color: #2aff18;">{{ i }}</a></li>
                     {% endif %}
-                </div>
             {% endfor %}
+            </ul>
+            </nav>
             {% endif %}
         </div>
     {% else %}
-        <h1>Ти без треків</h1>
+        <h1>У вас не має треків</h1>
     {% endif %}
+    </div>
 {% endblock %}

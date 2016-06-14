@@ -6,6 +6,7 @@
     <script>
         var start;
         var is_click_call = false;
+        var is_click_call_conf = false;
         var map;
             navigator.geolocation.getCurrentPosition(function (position) {
                 start = {lat: position.coords.latitude, lng: position.coords.longitude};
@@ -75,6 +76,26 @@
                     }
 
                 })
+            {#    Скрипт для зміни стану виконання  #}
+                $('#confirm').click(function () {
+                    if (!is_click_call_conf){
+                        is_click_call_conf = true;
+                        $.ajax({
+                        url: "/tracker/confirm_tracker/{{ ob.id }}",
+                        type: "GET",
+                        success: function (data) {
+                            if (data == "1") {
+                                $('.cont_button').append('<h3>Запит відправлено</h3>');
+                                setTimeout(function () {
+                                    $('h3').fadeOut(100)
+                                }, 5000)
+
+                            }
+                        }
+                    });
+                    }
+
+                })
         });
     </script>
 {% endblock %}
@@ -106,6 +127,9 @@
         <div class="cont_button">
             <button type="button" class="btn btn-default" id="builder">Пободувати маршрут</button>
             <button type="button" class="btn btn-default" id="call">Зателефонувати</button>
+            {% if not ob.is_confirm %}
+                <button type="button" class="btn btn-default" id="confirm">Підтвердити виконання</button>
+            {% endif %}
         </div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT-WN94rBusbT5l4fv-8dKkMhx-iqN3wI&language=uk&callback=initMap"
     ></script>

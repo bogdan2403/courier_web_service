@@ -1,15 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import auth
 
 from tracker.models import User, Tracker
 
-
+@login_required(login_url='/authorization/log_error/')
 def index(request):
-    if not request.user.is_authenticated():
-        return redirect('/authorization/log_error/')
-    return redirect('tracker/trackers/')
+    return redirect('/tracker/trackers/')
 
 @login_required(login_url='/authorization/log_error/')
 def trackers(request, page=1):
@@ -24,7 +23,7 @@ def trackers(request, page=1):
         page = int(page)
         user_by_id = Tracker.objects.all().filter(user_id=user_id)
         name = User.objects.get(pk=user_id).first_name
-        p = Paginator(user_by_id, 2)
+        p = Paginator(user_by_id, 5)
         page1 = p.page(page)
         context = {
             'user_name': user_name,
@@ -59,3 +58,9 @@ def tracker(request, track_id):
         'message': message,
     }
     return render(request, 'tracker/access_error.html', context)
+
+def confirm(request, track_id):
+    track = Tracker.objects.get(id=track_id)
+    track.is_confirm = True
+    track.save()
+    return HttpResponse(1)

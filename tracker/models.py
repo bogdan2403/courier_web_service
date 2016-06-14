@@ -42,6 +42,7 @@ class Tracker(models.Model):
     date_of_delivery = models.DateTimeField(verbose_name="Необхідно виконати маршрут до:")
     user_id = models.ForeignKey(User, verbose_name="Користувач")
     place_id = models.ForeignKey(Place, verbose_name="Місце")
+    is_confirm = models.BooleanField(default=False, verbose_name="Виконано")
 
     class Meta:
         verbose_name = 'Маршрут'
