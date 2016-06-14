@@ -9,7 +9,7 @@ from tracker.models import User, Tracker
 def index(request):
     if not request.user.is_authenticated():
         return redirect('/authorization/log_error/')
-    return redirect('trackers/')
+    return redirect('tracker/trackers/')
 
 @login_required(login_url='/authorization/log_error/')
 def trackers(request, page=1):
