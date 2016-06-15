@@ -21,7 +21,9 @@ def trackers(request, page=1):
     if str(user_name) == str(user):
         user_id = int(user_id)
         page = int(page)
-        user_by_id = Tracker.objects.all().filter(user_id=user_id)
+        user_by_id = []
+        for u in reversed(Tracker.objects.all().filter(user_id=user_id)):
+            user_by_id.append(u)
         name = User.objects.get(pk=user_id).first_name
         p = Paginator(user_by_id, 5)
         page1 = p.page(page)
