@@ -11,30 +11,7 @@
     <link rel="stylesheet" href="{% static 'tracker/css/auth.css' %}">
     {% if not user_name %}
         {#    Скрипт для панелі входу#}
-        <script>
-            $(document).ready(function () {
-                $('.loginmodal-submit').click(function () {
-                    $.ajax({
-                        url: "/authorization/login/",
-                        type: "POST",
-                        data: $('.myfor').serialize(),
-
-                        success: function (data) {
-                            if (data == "1") {
-                                location.reload()
-                            }
-                            else {
-                                $('#info-log').fadeIn(2000);
-                                setTimeout(function () {
-                                    $('#info-log').fadeOut(2000)
-                                }, 7000)
-                            }
-                        }
-                    });
-                })
-            });
-        </script>
-        {#/////////////////////////////#}
+        <script src="{% static 'tracker/js/login.js' %}"></script>
     {% endif %}
     {% block head %}
     {% endblock %}
