@@ -13,9 +13,7 @@ def logout(request):
 def login(request):
     if request.POST:
         username = request.POST.get('user', '')
-        print(username)
         password = request.POST.get('pass', '')
-        print(password)
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
@@ -26,7 +24,7 @@ def login(request):
 def reg(request, errors=''):
     # перервірка чи авторизований користувач
     # авторизований не може потрапити на сторінку з реєстацією
-    if auth.get_user(request).username:
+    if request.user.is_authenticated():
         return redirect('/tracker/')
     context = {
         'form': UserRegistrationForm,

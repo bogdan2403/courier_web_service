@@ -7,5 +7,5 @@ urlpatterns = [
     url(r'^authorization/', include('authorization.urls')),
     url(r'^telephony/', include('telephony.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^$', tracker.index),
+    url(r'^$', tracker.trackers),
 ]

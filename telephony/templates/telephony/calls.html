@@ -3,7 +3,7 @@
 {% block title %}Дзвінки{% endblock %}
 {% block head %}
     <script>
-    var len_calls = {{ len_calls }}
+    var len_calls = {{ all_call.count }}
     </script>
     <script src="{% static 'telephony/js/main.js' %}"></script>
     <style href="{% static 'telephony/css/style.css' %}"></style>

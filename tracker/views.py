@@ -1,49 +1,35 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from tracker.models import User, Tracker
-
-
-@login_required(login_url='/authorization/log_error/')
-def index(request):
-    return redirect('/tracker/trackers/')
+from tracker.models import Tracker
 
 
 @login_required(login_url='/authorization/log_error/')
 def trackers(request, page=1):
-
-    try:
-        user = User.objects.get(id=request.user.id)
-    except:
+    if request.user.is_superuser:
         return redirect('/admin')
-    if request.user.id == user.id:
-        page = int(page)
-        user_by_id = []
-        for u in Tracker.objects.all().filter(user_id=user.id).reverse():
-            user_by_id.append(u)
-        p = Paginator(user_by_id, 5)
-        page1 = p.page(page)
-        context = {
-            'trackers': page1,
-            'paginator': p,
-            'page': page,
-        }
-        return render(request, 'tracker/trackers.html', context)
-    message = 'У вас немає доступу до даної сторінки'
+    p = Paginator(Tracker.objects.all().filter(user_id=request.user.id), 5)
+    page1 = p.page(str(page))
     context = {
-        'message': message,
+        'trackers': page1,
+        'paginator': p,
+        'page': int(page),
     }
-    return render(request, 'tracker/access_error.html', context)
+    return render(request, 'tracker/trackers.html', context)
 
 
+@login_required(login_url='/authorization/log_error/')
 def tracker(request, track_id):
-    user_id = Tracker.objects.get(id=track_id).user_id.id
-    if request.user.id == user_id:
-        track = Tracker.objects.get(pk=int(track_id))
+    try:
+        track_for_user = Tracker.objects.get(id=track_id)
+    except Tracker.DoesNotExist:
+        raise Http404("Трекер не існує")
+    if request.user.id == track_for_user.user_id.id:
         context = {
-            'ob': track,
+            'ob': track_for_user,
         }
         return render(request, 'tracker/tracker.html', context)
     message = 'У вас немає доступу до даної сторінки'

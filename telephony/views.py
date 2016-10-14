@@ -7,26 +7,18 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 def call_me_page(request):
-    user_name = auth.get_user(request).username
-    if request.user.is_staff:
-        call = Call.objects.all()
-        call_tmp = []
-        for c in reversed(call):
-            call_tmp.append(c)
+    if request.user.is_superuser:
+        call = Call.objects.all().order_by('-pk')
         context = {
-            'user_name': user_name,
-            'all_call': call_tmp,
-            'len_calls': Call.objects.count()
+            'all_call': call,
         }
         return render(request, 'telephony/calls.html', context=context)
     else:
         message = 'У вас немає доступу до даної сторінки'
         context = {
-            'user_name': user_name,
             'message': message,
         }
         return render(request, 'tracker/access_error.html', context)
-
 
 
 # AJAX зпити
