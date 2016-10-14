@@ -9,7 +9,7 @@
     <script src="{% static 'tracker/js/jquery.js' %}"></script>
     <link rel="stylesheet" href="{% static 'tracker/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'tracker/css/auth.css' %}">
-    {% if not user_name %}
+    {% if not request.user.is_authenticated %}
         {#    Скрипт для панелі входу#}
         <script src="{% static 'tracker/js/login.js' %}"></script>
     {% endif %}
@@ -17,7 +17,7 @@
     {% endblock %}
 </head>
 <body>
-{% if not user_name %}
+{% if not request.user.is_authenticated %}
     {#Панель входу#}
     <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true" style="display: none;">
@@ -59,8 +59,8 @@
                         class="sr-only">(current)</span></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                {% if user_name %}
-                    <li><a href="/authorization/logout/">Вийти ({{ user_name }})</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="/authorization/logout/">Вийти ({{ request.user }})</a></li>
                 {% else %}
                     <li><a href="" data-toggle="modal" data-target="#login-modal">Увійти</a></li>
                 {% endif %}
